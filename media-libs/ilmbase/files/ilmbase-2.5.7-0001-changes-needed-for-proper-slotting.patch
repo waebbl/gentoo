@@ -1,0 +1,70 @@
+From d0c9cb2e863b074cd78de6879e9aaa464a1c93ba Mon Sep 17 00:00:00 2001
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Thu, 24 Jun 2021 16:13:04 +0200
+Subject: [PATCH] changes needed for proper slotting
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ IlmBase.pc.in              |  4 ++--
+ config/LibraryDefine.cmake | 12 ++++++------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/IlmBase.pc.in b/IlmBase.pc.in
+index 45fc4de..d11ee3a 100644
+--- a/IlmBase.pc.in
++++ b/IlmBase.pc.in
+@@ -5,7 +5,7 @@
+ 
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-libdir=@libdir@
++libdir=@libdir@/@ILMBASE_OUTPUT_SUBDIR@
+ includedir=@includedir@
+ libsuffix=@LIB_SUFFIX_DASH@
+ Name: IlmBase
+@@ -14,4 +14,4 @@ Version: @ILMBASE_VERSION@
+ Requires:
+ Conflicts:
+ Libs: -L${libdir} -lImath${libsuffix} -lHalf${libsuffix} -lIex${libsuffix} -lIexMath${libsuffix} -lIlmThread${libsuffix} @PTHREAD_LIBS@
+-Cflags: @PTHREAD_CFLAGS@ -I${includedir} -I${includedir}/OpenEXR
++Cflags: @PTHREAD_CFLAGS@ -I${includedir} -I${includedir}/@ILMBASE_OUTPUT_SUBDIR@
+diff --git a/config/LibraryDefine.cmake b/config/LibraryDefine.cmake
+index 7382989..ba78139 100644
+--- a/config/LibraryDefine.cmake
++++ b/config/LibraryDefine.cmake
+@@ -90,8 +90,8 @@ function(ILMBASE_DEFINE_LIBRARY libname)
+   install(TARGETS ${libname}
+     EXPORT ${PROJECT_NAME}
+     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${ILMBASE_OUTPUT_SUBDIR}
++    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/${ILMBASE_OUTPUT_SUBDIR}
+     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+     PUBLIC_HEADER
+       DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${ILMBASE_OUTPUT_SUBDIR}
+@@ -100,8 +100,8 @@ function(ILMBASE_DEFINE_LIBRARY libname)
+     string(TOUPPER "${CMAKE_BUILD_TYPE}" uppercase_CMAKE_BUILD_TYPE)
+     set(verlibname ${CMAKE_SHARED_LIBRARY_PREFIX}${libname}${ILMBASE_LIB_SUFFIX}${CMAKE_${uppercase_CMAKE_BUILD_TYPE}_POSTFIX}${CMAKE_SHARED_LIBRARY_SUFFIX})
+     set(baselibname ${CMAKE_SHARED_LIBRARY_PREFIX}${libname}${CMAKE_${uppercase_CMAKE_BUILD_TYPE}_POSTFIX}${CMAKE_SHARED_LIBRARY_SUFFIX})
+-    install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E chdir \"\$ENV\{DESTDIR\}${CMAKE_INSTALL_FULL_LIBDIR}\" ${CMAKE_COMMAND} -E create_symlink ${verlibname} ${baselibname})")
+-    install(CODE "message(\"-- Creating symlink in ${CMAKE_INSTALL_FULL_LIBDIR} ${baselibname} -> ${verlibname}\")")
++    install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E chdir \"\$ENV\{DESTDIR\}${CMAKE_INSTALL_FULL_LIBDIR}/${ILMBASE_OUTPUT_SUBDIR}\" ${CMAKE_COMMAND} -E create_symlink ${verlibname} ${baselibname})")
++    install(CODE "message(\"-- Creating symlink in ${CMAKE_INSTALL_FULL_LIBDIR}/${ILMBASE_OUTPUT_SUBDIR} ${baselibname} -> ${verlibname}\")")
+     set(verlibname)
+     set(baselibname)
+   endif()
+@@ -142,8 +142,8 @@ function(ILMBASE_DEFINE_LIBRARY libname)
+     install(TARGETS ${libname}_static
+       EXPORT ${PROJECT_NAME}
+       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+-      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/${ILMBASE_OUTPUT_SUBDIR}
++      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/${ILMBASE_OUTPUT_SUBDIR}
+       INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+     )
+   endif()
+-- 
+2.32.0
+
