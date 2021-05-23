@@ -1,12 +1,12 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit autotools flag-o-matic versionator virtualx
+inherit autotools flag-o-matic virtualx
 
-POVRAY_MAJOR_VER=$(get_version_component_range 1-3)
-POVRAY_MINOR_VER=$(get_version_component_range 4)
+POVRAY_MAJOR_VER=$(ver_cut 1-3)
+POVRAY_MINOR_VER=$(ver_cut 4)
 if [ -n "$POVRAY_MINOR_VER" ]; then
 	POVRAY_MINOR_VER=${POVRAY_MINOR_VER/rc/RC}
 	MY_PV="${POVRAY_MAJOR_VER}.${POVRAY_MINOR_VER}"
@@ -18,6 +18,7 @@ DESCRIPTION="The Persistence of Vision Raytracer"
 HOMEPAGE="http://www.povray.org/"
 SRC_URI="https://github.com/POV-Ray/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	https://dev.gentoo.org/~soap/distfiles/${P}_p20160914-fix-c++14.patch.bz2"
+S=${WORKDIR}/${PN}-${MY_PV}
 
 LICENSE="AGPL-3"
 SLOT="0"
@@ -30,27 +31,26 @@ DEPEND="
 	sys-libs/zlib
 	virtual/jpeg:0
 	openexr? (
-		media-libs/ilmbase
-		media-libs/openexr )
+		media-libs/ilmbase:=
+		media-libs/openexr:0= )
 	tiff? ( media-libs/tiff:0 )
 	X? ( media-libs/libsdl )"
 RDEPEND="${DEPEND}"
 DEPEND="${DEPEND}
 	sys-devel/autoconf-archive"
 
-S=${WORKDIR}/${PN}-${MY_PV}
-
 PATCHES=(
 	"${FILESDIR}"/${P}-user-conf.patch
 	"${FILESDIR}"/${P}-automagic.patch
 	"${WORKDIR}"/${P}_p20160914-fix-c++14.patch
 	"${FILESDIR}"/${P}-gcc6-openexr.patch
+	"${FILESDIR}"/${P}-0001-use-versioned-openexr.patch
 )
 
 src_prepare() {
 	[[ ${CHOST} == *-darwin* ]] && \
 		PATCHES+=( "${FILESDIR}"/${PN}-3.7.0_rc6-darwin-defaults.patch )
-	eapply "${FILESDIR}"/${PF}-boost-1.50.patch
+	eapply "${FILESDIR}"/${PN}-3.7.0.0-r1-boost-1.50.patch
 
 	pushd unix &>/dev/null || die
 		pushd config &>/dev/null || die
@@ -102,13 +102,13 @@ src_configure() {
 	# but the code compiles using incorrect [default] paths
 	# (based on /usr/local...), so povray will not find the system
 	# config files without the following fix:
-	append-cppflags -DPOVLIBDIR=\\\"${EROOT}usr/share/${PN}\\\" -DPOVCONFDIR=\\\"${EROOT}etc/${PN}\\\"
+	append-cppflags -DPOVLIBDIR=\\\"${EPREFIX}/usr/share/${PN}\\\" -DPOVCONFDIR=\\\"${EPREFIX}/etc/${PN}\\\"
 
 	econf \
 		COMPILED_BY="Portage (Gentoo $(uname)) on $(hostname -f)" \
 		$(use_enable debug) \
 		$(use_enable io-restrictions) \
-		$(use_with openexr openexr "${EPREFIX}/usr/$(get_libdir)") \
+		$(use_with openexr openexr "${EPREFIX}/usr/$(get_libdir)/OpenEXR-2") \
 		$(use_with tiff libtiff "${EPREFIX}/usr/$(get_libdir)") \
 		$(use_with X libsdl "${EPREFIX}/usr/$(get_libdir)") \
 		$(use_with X x "${EPREFIX}/usr/$(get_libdir)") \
@@ -132,11 +132,11 @@ pkg_preinst() {
 	# This way, they can be treated by CONFIG_PROTECT as normal.
 	local conf_file version_dir
 	for conf_file in "${ED}"/etc/"${PN}"/*; do
-		if [ ! -e "${EROOT}etc/${PN}/${conf_file}" ]; then
-			for version_dir in $(echo "${EROOT}"etc/"${PN}"/* | grep "^[0-9]" | sort -rn); do
-				if [ -e "${EROOT}etc/${PN}/${version_dir}/${conf_file}" ]; then
-					mv "${EROOT}etc/${PN}/${version_dir}/${conf_file}" "${EROOT}etc/${PN}" || die
-					elog "Note: ${conf_file} moved from ${EROOT}etc/povray/${version_dir}/ to ${EROOT}etc/povray/"
+		if [ ! -e "${EROOT}/etc/${PN}/${conf_file}" ]; then
+			for version_dir in $(echo "${EROOT}"/etc/"${PN}"/* | grep "^[0-9]" | sort -rn); do
+				if [ -e "${EROOT}/etc/${PN}/${version_dir}/${conf_file}" ]; then
+					mv "${EROOT}/etc/${PN}/${version_dir}/${conf_file}" "${EROOT}/etc/${PN}" || die
+					elog "Note: ${conf_file} moved from ${EROOT}/etc/povray/${version_dir}/ to ${EROOT}/etc/povray/"
 					break
 				fi
 			done
