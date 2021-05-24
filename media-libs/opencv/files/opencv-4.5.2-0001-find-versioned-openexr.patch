@@ -1,0 +1,45 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sat, 29 May 2021 21:27:18 +0200
+Subject: [PATCH] find versioned openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ cmake/OpenCVFindOpenEXR.cmake | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/cmake/OpenCVFindOpenEXR.cmake b/cmake/OpenCVFindOpenEXR.cmake
+index ef633e8..ce2cac5 100644
+--- a/cmake/OpenCVFindOpenEXR.cmake
++++ b/cmake/OpenCVFindOpenEXR.cmake
+@@ -38,7 +38,7 @@ MACRO(FIND_OPENEXR_LIBRARY LIBRARY_NAME LIBRARY_SUFFIX)
+         NAMES ${LIBRARY_NAME}${LIBRARY_SUFFIX}
+         PATH_SUFFIXES ${OPENEXR_LIBSEARCH_SUFFIXES}
+         NO_DEFAULT_PATH
+-        PATHS "${SEARCH_PATH}/lib" "${SEARCH_PATH}/lib/static")
++        PATHS "${SEARCH_PATH}/lib${LIB_SUFFIX}" "${SEARCH_PATH}/lib${LIB_SUFFIX}/OpenEXR-2")
+ ENDMACRO()
+ 
+ MACRO(ocv_find_openexr LIBRARY_SUFFIX)
+@@ -62,7 +62,7 @@ ENDMACRO()
+ 
+ FOREACH(SEARCH_PATH ${SEARCH_PATHS})
+     FIND_PATH(OPENEXR_INCLUDE_PATH ImfRgbaFile.h
+-        PATH_SUFFIXES OpenEXR
++        PATH_SUFFIXES OpenEXR-2
+         NO_DEFAULT_PATH
+         PATHS
+         "${SEARCH_PATH}/include")
+@@ -116,8 +116,8 @@ IF(OPENEXR_FOUND)
+   ENDIF()
+   if(PKG_CONFIG_FOUND AND NOT OPENEXR_VERSION)
+     get_filename_component(OPENEXR_LIB_PATH "${OPENEXR_ILMIMF_LIBRARY}" PATH)
+-    if(EXISTS "${OPENEXR_LIB_PATH}/pkgconfig/OpenEXR.pc")
+-      execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --modversion "${OPENEXR_LIB_PATH}/pkgconfig/OpenEXR.pc"
++    if(EXISTS "${OPENEXR_LIB_PATH}/pkgconfig/OpenEXR-2.pc")
++      execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} --modversion "${OPENEXR_LIB_PATH}/pkgconfig/OpenEXR-2.pc"
+                       RESULT_VARIABLE PKG_CONFIG_PROCESS
+                       OUTPUT_VARIABLE OPENEXR_VERSION
+                       OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+-- 
+2.31.1
+
