@@ -1,0 +1,90 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 30 May 2021 16:23:01 +0200
+Subject: [PATCH] find versioned openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMakeLists.txt                    | 4 ++--
+ CMakeModules/FindOpenEXR.cmake    | 5 +++--
+ CMakeModules/Findilmbase.cmake    | 5 +++--
+ src/osgPlugins/exr/CMakeLists.txt | 4 ++--
+ 4 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0ef2edd..2386a0d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -739,10 +739,10 @@ IF(ANDROID)
+ ELSE()
+ # Common to all platforms except android:
+     FIND_PACKAGE(Freetype)
+-    FIND_PACKAGE(ilmbase)
++    FIND_PACKAGE(IlmBase)
+     FIND_PACKAGE(Inventor)
+     FIND_PACKAGE(Jasper)
+-    FIND_PACKAGE(OpenEXR)
++    FIND_PACKAGE(OpenEXR 2.5)
+     FIND_PACKAGE(OpenCascade)
+     FIND_PACKAGE(COLLADA)
+     FIND_PACKAGE(FBX)
+diff --git a/CMakeModules/FindOpenEXR.cmake b/CMakeModules/FindOpenEXR.cmake
+index 233be97..26ec52c 100644
+--- a/CMakeModules/FindOpenEXR.cmake
++++ b/CMakeModules/FindOpenEXR.cmake
+@@ -10,7 +10,7 @@
+ # Created by Robert Osfield. 
+ 
+ 
+-FIND_PATH(OPENEXR_INCLUDE_DIR OpenEXR/ImfIO.h
++FIND_PATH(OPENEXR_INCLUDE_DIR OpenEXR-2/ImfIO.h
+     $ENV{OPENEXR_DIR}/include
+     $ENV{OPENEXR_DIR}
+     ~/Library/Frameworks
+@@ -35,7 +35,8 @@ MACRO(OPENEXR_FIND_VAR varname libname)
+         ~/Library/Frameworks
+         /Library/Frameworks
+         /usr/local/lib
+-        /usr/lib
++        /usr/lib${LIB_SUFFIX}
++        /usr/lib${LIB_SUFFIX}/OpenEXR-2
+         /sw/lib
+         /opt/local/lib
+         /opt/csw/lib
+diff --git a/CMakeModules/Findilmbase.cmake b/CMakeModules/Findilmbase.cmake
+index 4b076c7..3f87c52 100644
+--- a/CMakeModules/Findilmbase.cmake
++++ b/CMakeModules/Findilmbase.cmake
+@@ -10,7 +10,7 @@
+ # Created by Robert Osfield. 
+ 
+ 
+-FIND_PATH(ILMBASE_INCLUDE_DIR OpenEXR/ImathVec.h
++FIND_PATH(ILMBASE_INCLUDE_DIR OpenEXR-2/ImathVec.h
+     $ENV{ILMBASE_DIR}/include
+     $ENV{ILMBASE_DIR}
+     ~/Library/Frameworks
+@@ -35,7 +35,8 @@ MACRO(ILMBASE_FIND_VAR varname libname)
+         ~/Library/Frameworks
+         /Library/Frameworks
+         /usr/local/lib
+-        /usr/lib
++        /usr/lib${LIB_SUFFIX}
++        /usr/lib${LIB_SUFFIX}/OpenEXR-2
+         /sw/lib
+         /opt/local/lib
+         /opt/csw/lib
+diff --git a/src/osgPlugins/exr/CMakeLists.txt b/src/osgPlugins/exr/CMakeLists.txt
+index 6191ed1..43742c7 100644
+--- a/src/osgPlugins/exr/CMakeLists.txt
++++ b/src/osgPlugins/exr/CMakeLists.txt
+@@ -1,5 +1,5 @@
+-INCLUDE_DIRECTORIES( ${ILMBASE_INCLUDE_DIR}/OpenEXR )
+-INCLUDE_DIRECTORIES( ${OPENEXR_INCLUDE_DIR}/OpenEXR )
++INCLUDE_DIRECTORIES( ${ILMBASE_INCLUDE_DIR}/OpenEXR-2 )
++INCLUDE_DIRECTORIES( ${OPENEXR_INCLUDE_DIR}/OpenEXR-2 )
+ 
+ SET(TARGET_SRC ReaderWriterEXR.cpp )
+ 
+-- 
+2.31.1
+
