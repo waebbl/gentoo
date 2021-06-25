@@ -1,0 +1,60 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Fri, 25 Jun 2021 12:39:44 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMakeLists.txt                    | 2 +-
+ CMakeModules/FindOpenEXR.cmake    | 5 +++--
+ src/osgPlugins/exr/CMakeLists.txt | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fe25c70..399d85f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -638,7 +638,7 @@ ELSE()
+     MACRO_OPTIONAL_FIND_PACKAGE(Freetype)
+     MACRO_OPTIONAL_FIND_PACKAGE(Inventor)
+     MACRO_OPTIONAL_FIND_PACKAGE(Jasper)
+-    MACRO_OPTIONAL_FIND_PACKAGE(OpenEXR)
++    MACRO_OPTIONAL_FIND_PACKAGE(OpenEXR 2.5)
+     MACRO_OPTIONAL_FIND_PACKAGE(COLLADA)
+     MACRO_OPTIONAL_FIND_PACKAGE(FBX)
+     MACRO_OPTIONAL_FIND_PACKAGE(ZLIB)
+diff --git a/CMakeModules/FindOpenEXR.cmake b/CMakeModules/FindOpenEXR.cmake
+index 743df98..5cd5e76 100644
+--- a/CMakeModules/FindOpenEXR.cmake
++++ b/CMakeModules/FindOpenEXR.cmake
+@@ -10,7 +10,7 @@
+ # Created by Robert Osfield. 
+ 
+ 
+-FIND_PATH(OPENEXR_INCLUDE_DIR OpenEXR/ImfIO.h
++FIND_PATH(OPENEXR_INCLUDE_DIR OpenEXR-2/ImfIO.h
+     $ENV{OPENEXR_DIR}/include
+     $ENV{OPENEXR_DIR}
+     ~/Library/Frameworks
+@@ -35,7 +35,8 @@ MACRO(OPENEXR_FIND_VAR varname libname)
+         ~/Library/Frameworks
+         /Library/Frameworks
+         /usr/local/lib
+-        /usr/lib
++        /usr/lib${LIB_SUFFIX}
++        /usr/lib${LIB_SUFFIX}/OpenEXR-2
+         /sw/lib
+         /opt/local/lib
+         /opt/csw/lib
+diff --git a/src/osgPlugins/exr/CMakeLists.txt b/src/osgPlugins/exr/CMakeLists.txt
+index ede75fc..1e9171f 100644
+--- a/src/osgPlugins/exr/CMakeLists.txt
++++ b/src/osgPlugins/exr/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-INCLUDE_DIRECTORIES( ${OPENEXR_INCLUDE_DIR}/OpenEXR )
++INCLUDE_DIRECTORIES( ${OPENEXR_INCLUDE_DIR}/OpenEXR-2 )
+ 
+ SET(TARGET_SRC ReaderWriterEXR.cpp )
+ 
+-- 
+2.32.0
+
