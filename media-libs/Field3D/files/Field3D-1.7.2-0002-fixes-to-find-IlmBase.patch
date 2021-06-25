@@ -1,0 +1,29 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Fri, 25 Jun 2021 14:48:34 +0200
+Subject: [PATCH] fixes to find IlmBase
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMakeLists.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e9ad44f..856c4ee 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -49,7 +49,11 @@ FIND_PACKAGE (Boost COMPONENTS regex thread program_options system)
+ FIND_PACKAGE (MPI)
+ ENDIF ()
+ 
+-FIND_PACKAGE (ILMBase)
++FIND_PACKAGE (IlmBase 2.5)
++IF (TARGET IlmBase::IlmBaseConfig)
++GET_TARGET_PROPERTY (ILMBASE_INCLUDE_DIRS IlmBase::IlmBaseConfig INTERFACE_INCLUDE_DIRECTORIES)
++SET (ILMBASE_LIBRARY_DIRS "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/OpenEXR-2")
++ENDIF ()
+ 
+ # Allow the developer to select if Dynamic or Static libraries are built
+ OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
+-- 
+2.32.0
+

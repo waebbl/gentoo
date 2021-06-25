@@ -1,0 +1,159 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Fri, 25 Jun 2021 14:20:12 +0200
+Subject: [PATCH 1/2] use correct include dir
+
+Slotted IlmBase / OpenEXR requires a different include path.
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ export/Curve.h               |  4 ++--
+ export/FieldWrapper.h        |  2 +-
+ export/SpiMathLib.h          | 28 ++++++++++++++--------------
+ export/StdMathLib.h          | 22 +++++++++++-----------
+ include/OgIAttribute.h       |  2 +-
+ include/OgUtil.h             |  2 +-
+ test/unit_tests/UnitTest.cpp |  2 +-
+ 7 files changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/export/Curve.h b/export/Curve.h
+index 8b1b6cc..80311eb 100644
+--- a/export/Curve.h
++++ b/export/Curve.h
+@@ -53,8 +53,8 @@
+ 
+ #include <boost/lexical_cast.hpp>
+ 
+-#include <OpenEXR/ImathFun.h>
+-#include <OpenEXR/ImathMatrix.h>
++#include <OpenEXR-2/ImathFun.h>
++#include <OpenEXR-2/ImathMatrix.h>
+ 
+ //----------------------------------------------------------------------------//
+ 
+diff --git a/export/FieldWrapper.h b/export/FieldWrapper.h
+index b54c2b8..ab372b7 100644
+--- a/export/FieldWrapper.h
++++ b/export/FieldWrapper.h
+@@ -6,7 +6,7 @@
+ //------------------------------------------------------------------------------
+ 
+ // Library includes
+-#include <OpenEXR/ImathMatrixAlgo.h>
++#include <OpenEXR-2/ImathMatrixAlgo.h>
+ 
+ // Project includes
+ #include "DenseField.h"
+diff --git a/export/SpiMathLib.h b/export/SpiMathLib.h
+index 05a4c92..85149ca 100644
+--- a/export/SpiMathLib.h
++++ b/export/SpiMathLib.h
+@@ -38,20 +38,20 @@
+ #ifndef _INCLUDED_Field3D_SpiMathLib_H_
+ #define _INCLUDED_Field3D_SpiMathLib_H_
+ 
+-#include <OpenEXR/half.h>
+-#include <OpenEXR/ImathHalfLimits.h>
+-
+-#include <OpenEXR/ImathBox.h>
+-#include <OpenEXR/ImathBoxAlgo.h>
+-#include <OpenEXR/ImathColor.h>
+-#include <OpenEXR/ImathMatrix.h>
+-#include <OpenEXR/ImathVec.h>
+-
+-#include <OpenEXR/ImathRoots.h>
+-#include <OpenEXR/ImathMatrixAlgo.h>
+-#include <OpenEXR/ImathRandom.h>
+-#include <OpenEXR/ImathPlane.h>
+-#include <OpenEXR/ImathQuat.h>
++#include <OpenEXR-2/half.h>
++#include <OpenEXR-2/ImathHalfLimits.h>
++
++#include <OpenEXR-2/ImathBox.h>
++#include <OpenEXR-2/ImathBoxAlgo.h>
++#include <OpenEXR-2/ImathColor.h>
++#include <OpenEXR-2/ImathMatrix.h>
++#include <OpenEXR-2/ImathVec.h>
++
++#include <OpenEXR-2/ImathRoots.h>
++#include <OpenEXR-2/ImathMatrixAlgo.h>
++#include <OpenEXR-2/ImathRandom.h>
++#include <OpenEXR-2/ImathPlane.h>
++#include <OpenEXR-2/ImathQuat.h>
+ 
+ //----------------------------------------------------------------------------//
+ 
+diff --git a/export/StdMathLib.h b/export/StdMathLib.h
+index 5551df4..e404d99 100644
+--- a/export/StdMathLib.h
++++ b/export/StdMathLib.h
+@@ -38,17 +38,17 @@
+ #ifndef _INCLUDED_Field3D_StdMathLib_H_
+ #define _INCLUDED_Field3D_StdMathLib_H_
+ 
+-#include <OpenEXR/ImathBox.h> 
+-#include <OpenEXR/ImathBoxAlgo.h>
+-#include <OpenEXR/ImathColor.h>
+-#include <OpenEXR/ImathHalfLimits.h>
+-#include <OpenEXR/ImathMatrix.h>
+-#include <OpenEXR/ImathMatrixAlgo.h>
+-#include <OpenEXR/ImathPlane.h>
+-#include <OpenEXR/ImathRandom.h> 
+-#include <OpenEXR/ImathRoots.h>
+-#include <OpenEXR/ImathVec.h>
+-#include <OpenEXR/half.h> 
++#include <OpenEXR-2/ImathBox.h> 
++#include <OpenEXR-2/ImathBoxAlgo.h>
++#include <OpenEXR-2/ImathColor.h>
++#include <OpenEXR-2/ImathHalfLimits.h>
++#include <OpenEXR-2/ImathMatrix.h>
++#include <OpenEXR-2/ImathMatrixAlgo.h>
++#include <OpenEXR-2/ImathPlane.h>
++#include <OpenEXR-2/ImathRandom.h> 
++#include <OpenEXR-2/ImathRoots.h>
++#include <OpenEXR-2/ImathVec.h>
++#include <OpenEXR-2/half.h> 
+ 
+ //----------------------------------------------------------------------------//
+ 
+diff --git a/include/OgIAttribute.h b/include/OgIAttribute.h
+index 7d0e128..f62e0f5 100644
+--- a/include/OgIAttribute.h
++++ b/include/OgIAttribute.h
+@@ -9,7 +9,7 @@
+ 
+ #include "OgUtil.h"
+ 
+-#include <OpenEXR/ImathMatrix.h>
++#include <OpenEXR-2/ImathMatrix.h>
+ 
+ //----------------------------------------------------------------------------//
+ 
+diff --git a/include/OgUtil.h b/include/OgUtil.h
+index 07254c7..97e57c7 100644
+--- a/include/OgUtil.h
++++ b/include/OgUtil.h
+@@ -10,7 +10,7 @@
+ #include <iostream>
+ #include <string>
+ 
+-#include <OpenEXR/ImathVec.h>
++#include <OpenEXR-2/ImathVec.h>
+ 
+ #include "All.h"
+ #include "UtilFoundation.h"
+diff --git a/test/unit_tests/UnitTest.cpp b/test/unit_tests/UnitTest.cpp
+index 42f8654..9d2417b 100644
+--- a/test/unit_tests/UnitTest.cpp
++++ b/test/unit_tests/UnitTest.cpp
+@@ -44,7 +44,7 @@
+ #include <boost/thread/thread.hpp>
+ #include <boost/thread/mutex.hpp>
+ 
+-#include <OpenEXR/ImathFrustum.h>
++#include <OpenEXR-2/ImathFrustum.h>
+ 
+ #include "Field3D/DenseField.h"
+ #include "Field3D/EmptyField.h"
+-- 
+2.32.0
+
