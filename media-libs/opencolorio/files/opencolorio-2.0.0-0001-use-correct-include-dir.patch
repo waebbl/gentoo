@@ -1,0 +1,126 @@
+From 8dd1513117d73e20e88df14ea2d48b968f5a8b81 Mon Sep 17 00:00:00 2001
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Fri, 25 Jun 2021 15:59:31 +0200
+Subject: [PATCH] use correct include dir
+
+Slotted IlmBase uses different include dir layout
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ src/OpenColorIO/BitDepthUtils.h                   | 2 +-
+ src/OpenColorIO/MathUtils.h                       | 2 +-
+ src/OpenColorIO/ops/range/RangeOp.cpp             | 2 +-
+ src/OpenColorIO/transforms/builtins/ACES.cpp      | 2 +-
+ src/OpenColorIO/transforms/builtins/OpHelpers.cpp | 2 +-
+ src/apps/ocioconvert/main.cpp                     | 2 +-
+ src/apps/ocioperf/main.cpp                        | 2 +-
+ src/libutils/oiiohelpers/oiiohelpers.cpp          | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/OpenColorIO/BitDepthUtils.h b/src/OpenColorIO/BitDepthUtils.h
+index a8b3cbd..597b02d 100644
+--- a/src/OpenColorIO/BitDepthUtils.h
++++ b/src/OpenColorIO/BitDepthUtils.h
+@@ -7,7 +7,7 @@
+ 
+ #include <OpenColorIO/OpenColorIO.h>
+ 
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ 
+ 
+ namespace OCIO_NAMESPACE
+diff --git a/src/OpenColorIO/MathUtils.h b/src/OpenColorIO/MathUtils.h
+index 309c624..da28fc3 100644
+--- a/src/OpenColorIO/MathUtils.h
++++ b/src/OpenColorIO/MathUtils.h
+@@ -9,7 +9,7 @@
+ 
+ #include <OpenColorIO/OpenColorIO.h>
+ 
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ 
+ namespace OCIO_NAMESPACE
+ {
+diff --git a/src/OpenColorIO/ops/range/RangeOp.cpp b/src/OpenColorIO/ops/range/RangeOp.cpp
+index b6fb6d9..cd8fdff 100644
+--- a/src/OpenColorIO/ops/range/RangeOp.cpp
++++ b/src/OpenColorIO/ops/range/RangeOp.cpp
+@@ -7,7 +7,7 @@
+ #include <OpenColorIO/OpenColorIO.h>
+ 
+ #include "GpuShaderUtils.h"
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ #include "HashUtils.h"
+ #include "MathUtils.h"
+ #include "ops/lut1d/Lut1DOpData.h"
+diff --git a/src/OpenColorIO/transforms/builtins/ACES.cpp b/src/OpenColorIO/transforms/builtins/ACES.cpp
+index 20968c0..8fe94e7 100644
+--- a/src/OpenColorIO/transforms/builtins/ACES.cpp
++++ b/src/OpenColorIO/transforms/builtins/ACES.cpp
+@@ -6,7 +6,7 @@
+ 
+ #include <OpenColorIO/OpenColorIO.h>
+ 
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ #include "ops/fixedfunction/FixedFunctionOp.h"
+ #include "ops/gradingrgbcurve/GradingRGBCurveOp.h"
+ #include "ops/log/LogOp.h"
+diff --git a/src/OpenColorIO/transforms/builtins/OpHelpers.cpp b/src/OpenColorIO/transforms/builtins/OpHelpers.cpp
+index 04b8fbd..29b789f 100644
+--- a/src/OpenColorIO/transforms/builtins/OpHelpers.cpp
++++ b/src/OpenColorIO/transforms/builtins/OpHelpers.cpp
+@@ -4,7 +4,7 @@
+ 
+ #include <OpenColorIO/OpenColorIO.h>
+ 
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ #include "ops/lut1d/Lut1DOp.h"
+ #include "transforms/builtins/OpHelpers.h"
+ 
+diff --git a/src/apps/ocioconvert/main.cpp b/src/apps/ocioconvert/main.cpp
+index 40ad6e0..35be6fb 100644
+--- a/src/apps/ocioconvert/main.cpp
++++ b/src/apps/ocioconvert/main.cpp
+@@ -24,7 +24,7 @@ namespace OIIO = OIIO_NAMESPACE;
+ #endif // OCIO_GPU_ENABLED
+ 
+ #include "oiiohelpers.h"
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ 
+ 
+ // Array of non OpenColorIO arguments.
+diff --git a/src/apps/ocioperf/main.cpp b/src/apps/ocioperf/main.cpp
+index cdd8115..b34592e 100644
+--- a/src/apps/ocioperf/main.cpp
++++ b/src/apps/ocioperf/main.cpp
+@@ -11,7 +11,7 @@ namespace OIIO = OIIO_NAMESPACE;
+ #endif
+ 
+ #include "apputils/argparse.h"
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ #include "oiiohelpers.h"
+ #include "utils/StringUtils.h"
+ 
+diff --git a/src/libutils/oiiohelpers/oiiohelpers.cpp b/src/libutils/oiiohelpers/oiiohelpers.cpp
+index 3228644..74cae2d 100644
+--- a/src/libutils/oiiohelpers/oiiohelpers.cpp
++++ b/src/libutils/oiiohelpers/oiiohelpers.cpp
+@@ -5,7 +5,7 @@
+ #include <OpenColorIO/OpenColorIO.h>
+ 
+ 
+-#include "OpenEXR/half.h"
++#include "OpenEXR-2/half.h"
+ #include "oiiohelpers.h"
+ #include "utils/StringUtils.h"
+ 
+-- 
+2.32.0
+
