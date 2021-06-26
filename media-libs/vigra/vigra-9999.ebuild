@@ -44,7 +44,7 @@ DEPEND="
 	jpeg? ( virtual/jpeg:0 )
 	openexr? (
 		media-libs/ilmbase:=
-		media-libs/openexr:=
+		media-libs/openexr:0=
 	)
 	png? ( media-libs/libpng:0= )
 	python? (
@@ -62,11 +62,13 @@ RDEPEND="${PYTHON_DEPS}
 # Severely broken, also disabled in Fedora, bugs #390447, #653442
 RESTRICT="test"
 
+#	"${FILESDIR}/${PN}-1.11.1-sphinx.ext.pngmath.patch" # thanks to Debian; bug 678308
 PATCHES=(
 	# TODO: upstream
 	"${FILESDIR}/${PN}-1.11.1-lib_suffix.patch"
 	"${FILESDIR}/${PN}-1.11.1-cmake-module-dir.patch"
-	"${FILESDIR}/${PN}-1.11.1-sphinx.ext.pngmath.patch" # thanks to Debian; bug 678308
+	# slotted OpenEXR
+	"${FILESDIR}/${PN}-1.11.1-find-slotted-openexr.patch"
 )
 
 pkg_setup() {
