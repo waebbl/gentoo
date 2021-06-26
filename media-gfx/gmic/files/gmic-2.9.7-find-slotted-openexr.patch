@@ -1,0 +1,33 @@
+From bc561bf69662c37345810d488e14ed0493fb278d Mon Sep 17 00:00:00 2001
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sat, 26 Jun 2021 22:22:35 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ cmake/FindOpenEXR.cmake | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/cmake/FindOpenEXR.cmake b/cmake/FindOpenEXR.cmake
+index 4ac2cc1..8dc94db 100644
+--- a/cmake/FindOpenEXR.cmake
++++ b/cmake/FindOpenEXR.cmake
+@@ -1,6 +1,6 @@
+ find_package(PkgConfig)
+ 
+-pkg_check_modules(OPENEXR OpenEXR)
++pkg_check_modules(OPENEXR OpenEXR-2)
+ 
+ include(FindPackageHandleStandardArgs)
+ find_package_handle_standard_args(OpenEXR
+@@ -8,6 +8,7 @@ find_package_handle_standard_args(OpenEXR
+ )
+ 
+ add_library(OpenEXR::OpenEXR INTERFACE IMPORTED)
++link_directories(${OPENEXR_LIBRARY_DIRS})
+ set_target_properties(OpenEXR::OpenEXR PROPERTIES
+   INTERFACE_INCLUDE_DIRECTORIES "${OPENEXR_INCLUDE_DIRS}"
+   INTERFACE_LINK_LIBRARIES "${OPENEXR_LIBRARIES}"
+-- 
+2.32.0
+
