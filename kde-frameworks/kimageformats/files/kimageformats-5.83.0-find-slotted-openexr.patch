@@ -1,0 +1,26 @@
+From ab41ac67b665947309b57f0f97c286924be92d01 Mon Sep 17 00:00:00 2001
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 27 Jun 2021 01:22:43 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f4464dd..09b366a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -45,7 +45,7 @@ endif()
+ 
+ find_package(OpenEXR 3.0 CONFIG QUIET)
+ if(NOT OpenEXR_FOUND)
+-    find_package(OpenEXR)
++    find_package(OpenEXR 2.5 CONFIG QUIET)
+ endif()
+ set_package_properties(OpenEXR PROPERTIES
+     TYPE OPTIONAL
+-- 
+2.32.0
+
