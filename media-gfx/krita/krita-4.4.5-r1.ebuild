@@ -71,7 +71,7 @@ RDEPEND="${PYTHON_DEPS}
 	heif? ( media-libs/libheif:= )
 	openexr? (
 		media-libs/ilmbase:=
-		media-libs/openexr
+		media-libs/openexr:0=
 	)
 	pdf? ( app-text/poppler[qt5] )
 	qtmedia? ( >=dev-qt/qtmultimedia-${QTMIN}:5 )
@@ -102,6 +102,7 @@ pkg_setup() {
 src_prepare() {
 	ecm_src_prepare
 	sed -e "/CMAKE_CXX_STANDARD/s/11/14/" -i CMakeLists.txt || die
+	sed -e "s/OPENEXR_DEFINITIONS/OpenEXR_DEFINITIONS/" -i CMakeLists.txt || die
 }
 
 src_configure() {
