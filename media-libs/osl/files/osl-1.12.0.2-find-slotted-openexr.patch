@@ -1,0 +1,216 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 27 Jun 2021 15:15:04 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ src/cmake/externalpackages.cmake     |  2 +-
+ src/cmake/modules/FindOpenEXR.cmake  | 14 +++++++-------
+ src/include/OSL/Imathx/ImathColor.h  |  2 +-
+ src/include/OSL/Imathx/ImathFun.h    |  6 +++---
+ src/include/OSL/Imathx/ImathLimits.h |  2 +-
+ src/include/OSL/Imathx/ImathMatrix.h |  8 ++++----
+ src/include/OSL/Imathx/ImathVec.h    |  6 +++---
+ src/include/OSL/sfmath.h             |  4 ++--
+ src/liboslexec/llvm_ops.cpp          |  2 +-
+ src/liboslexec/shadingsys.cpp        |  2 +-
+ src/liboslquery/py_osl.h             |  2 +-
+ 11 files changed, 25 insertions(+), 25 deletions(-)
+
+diff --git a/src/cmake/externalpackages.cmake b/src/cmake/externalpackages.cmake
+index 3e5405a..106e6ad 100644
+--- a/src/cmake/externalpackages.cmake
++++ b/src/cmake/externalpackages.cmake
+@@ -82,7 +82,7 @@ checked_find_package (ZLIB REQUIRED)  # Needed by several packages
+ checked_find_package (OpenEXR 2.0 REQUIRED)
+ # We use Imath so commonly, may as well include it everywhere.
+ include_directories ("${OPENEXR_INCLUDES}" "${ILMBASE_INCLUDES}"
+-                     "${ILMBASE_INCLUDES}/OpenEXR")
++                     "${ILMBASE_INCLUDES}/OpenEXR-2")
+ if (CMAKE_COMPILER_IS_CLANG AND OPENEXR_VERSION VERSION_LESS 2.3)
+     # clang C++ >= 11 doesn't like 'register' keyword in old exr headers
+     add_compile_options (-Wno-deprecated-register)
+diff --git a/src/cmake/modules/FindOpenEXR.cmake b/src/cmake/modules/FindOpenEXR.cmake
+index a41185d..2513007 100644
+--- a/src/cmake/modules/FindOpenEXR.cmake
++++ b/src/cmake/modules/FindOpenEXR.cmake
+@@ -35,7 +35,7 @@ if (PKG_CONFIG_FOUND)
+     endif ()
+     if (NOT OpenEXR_ROOT AND NOT OPENEXR_ROOT
+         AND NOT DEFINED ENV{OpenEXR_ROOT} AND NOT DEFINED ENV{OPENEXR_ROOT})
+-        pkg_check_modules(_OPENEXR QUIET OpenEXR>=2.0.0)
++        pkg_check_modules(_OPENEXR QUIET OpenEXR-2>=2.0.0)
+     endif ()
+ endif (PKG_CONFIG_FOUND)
+ 
+@@ -57,10 +57,10 @@ set (GENERIC_INCLUDE_PATHS
+     /opt/local/include )
+ 
+ # Find the include file locations.
+-find_path (ILMBASE_INCLUDE_PATH OpenEXR/IlmBaseConfig.h
++find_path (ILMBASE_INCLUDE_PATH OpenEXR-2/IlmBaseConfig.h
+            HINTS ${ILMBASE_INCLUDE_DIR} ${OPENEXR_INCLUDE_DIR}
+                  ${GENERIC_INCLUDE_PATHS} )
+-find_path (OPENEXR_INCLUDE_PATH OpenEXR/OpenEXRConfig.h
++find_path (OPENEXR_INCLUDE_PATH OpenEXR-2/OpenEXRConfig.h
+            HINTS ${OPENEXR_INCLUDE_DIR}
+                  ${GENERIC_INCLUDE_PATHS} )
+ 
+@@ -69,13 +69,13 @@ if (DEFINED _OPENEXR_VERSION AND NOT "${_OPENEXR_VERSION}" STREQUAL "")
+     set (OPENEXR_VERSION "${_OPENEXR_VERSION}")
+     string (REGEX REPLACE "([0-9]+)\\.[0-9\\.]+" "\\1" OPENEXR_VERSION_MAJOR "${_OPENEXR_VERSION}")
+     string (REGEX REPLACE "[0-9]+\\.([0-9]+)(\\.[0-9]+)?" "\\1" OPENEXR_VERSION_MINOR "${_OPENEXR_VERSION}")
+-elseif (EXISTS "${OPENEXR_INCLUDE_PATH}/OpenEXR/ImfMultiPartInputFile.h")
++elseif (EXISTS "${OPENEXR_INCLUDE_PATH}/OpenEXR-2/ImfMultiPartInputFile.h")
+     # Must be at least 2.0
+-    file(STRINGS "${OPENEXR_INCLUDE_PATH}/OpenEXR/OpenEXRConfig.h" TMP REGEX "^#define OPENEXR_VERSION_STRING .*$")
++    file(STRINGS "${OPENEXR_INCLUDE_PATH}/OpenEXR-2/OpenEXRConfig.h" TMP REGEX "^#define OPENEXR_VERSION_STRING .*$")
+     string (REGEX MATCHALL "[0-9]+[.0-9]+" OPENEXR_VERSION ${TMP})
+-    file(STRINGS "${OPENEXR_INCLUDE_PATH}/OpenEXR/OpenEXRConfig.h" TMP REGEX "^#define OPENEXR_VERSION_MAJOR .*$")
++    file(STRINGS "${OPENEXR_INCLUDE_PATH}/OpenEXR-2/OpenEXRConfig.h" TMP REGEX "^#define OPENEXR_VERSION_MAJOR .*$")
+     string (REGEX MATCHALL "[0-9]+" OPENEXR_VERSION_MAJOR ${TMP})
+-    file(STRINGS "${OPENEXR_INCLUDE_PATH}/OpenEXR/OpenEXRConfig.h" TMP REGEX "^#define OPENEXR_VERSION_MINOR .*$")
++    file(STRINGS "${OPENEXR_INCLUDE_PATH}/OpenEXR-2/OpenEXRConfig.h" TMP REGEX "^#define OPENEXR_VERSION_MINOR .*$")
+     string (REGEX MATCHALL "[0-9]+" OPENEXR_VERSION_MINOR ${TMP})
+ else ()
+     # Assume an old one, predates 2.x that had versions
+diff --git a/src/include/OSL/Imathx/ImathColor.h b/src/include/OSL/Imathx/ImathColor.h
+index d0b035f..1e15e66 100644
+--- a/src/include/OSL/Imathx/ImathColor.h
++++ b/src/include/OSL/Imathx/ImathColor.h
+@@ -44,7 +44,7 @@
+ //----------------------------------------------------
+ 
+ #include "ImathVec.h"
+-#include <OpenEXR/ImathNamespace.h>
++#include <OpenEXR-2/ImathNamespace.h>
+ // #include "half.h"
+ 
+ #ifndef IMATH_HOSTDEVICE
+diff --git a/src/include/OSL/Imathx/ImathFun.h b/src/include/OSL/Imathx/ImathFun.h
+index 1413c48..ed292ed 100644
+--- a/src/include/OSL/Imathx/ImathFun.h
++++ b/src/include/OSL/Imathx/ImathFun.h
+@@ -43,10 +43,10 @@
+ //
+ //-----------------------------------------------------------------------------
+ 
+-#include <OpenEXR/ImathExport.h>
++#include <OpenEXR-2/ImathExport.h>
+ #include "ImathLimits.h"
+-#include <OpenEXR/ImathInt64.h>
+-#include <OpenEXR/ImathNamespace.h>
++#include <OpenEXR-2/ImathInt64.h>
++#include <OpenEXR-2/ImathNamespace.h>
+ 
+ IMATH_INTERNAL_NAMESPACE_HEADER_ENTER
+ 
+diff --git a/src/include/OSL/Imathx/ImathLimits.h b/src/include/OSL/Imathx/ImathLimits.h
+index 09fa419..621f17a 100644
+--- a/src/include/OSL/Imathx/ImathLimits.h
++++ b/src/include/OSL/Imathx/ImathLimits.h
+@@ -43,7 +43,7 @@
+ //
+ //----------------------------------------------------------------
+ 
+-#include <OpenEXR/ImathNamespace.h>
++#include <OpenEXR-2/ImathNamespace.h>
+ #include <float.h>
+ #include <limits.h>
+ 
+diff --git a/src/include/OSL/Imathx/ImathMatrix.h b/src/include/OSL/Imathx/ImathMatrix.h
+index 65f386b..14be174 100644
+--- a/src/include/OSL/Imathx/ImathMatrix.h
++++ b/src/include/OSL/Imathx/ImathMatrix.h
+@@ -43,12 +43,12 @@
+ //
+ //----------------------------------------------------------------
+ 
+-#include <OpenEXR/ImathPlatform.h>
++#include <OpenEXR-2/ImathPlatform.h>
+ #include "ImathFun.h"
+-#include <OpenEXR/ImathExc.h>
++#include <OpenEXR-2/ImathExc.h>
+ #include "ImathVec.h"
+-#include <OpenEXR/ImathShear.h>
+-#include <OpenEXR/ImathNamespace.h>
++#include <OpenEXR-2/ImathShear.h>
++#include <OpenEXR-2/ImathNamespace.h>
+ 
+ #include <cstring>
+ #include <iostream>
+diff --git a/src/include/OSL/Imathx/ImathVec.h b/src/include/OSL/Imathx/ImathVec.h
+index e52af61..69d28a2 100644
+--- a/src/include/OSL/Imathx/ImathVec.h
++++ b/src/include/OSL/Imathx/ImathVec.h
+@@ -43,10 +43,10 @@
+ //
+ //----------------------------------------------------
+ 
+-#include <OpenEXR/ImathExc.h>
++#include <OpenEXR-2/ImathExc.h>
+ #include "ImathLimits.h"
+-#include <OpenEXR/ImathMath.h>
+-#include <OpenEXR/ImathNamespace.h>
++#include <OpenEXR-2/ImathMath.h>
++#include <OpenEXR-2/ImathNamespace.h>
+ 
+ #include <iostream>
+ #include <limits>
+diff --git a/src/include/OSL/sfmath.h b/src/include/OSL/sfmath.h
+index 6f16195..704533f 100644
+--- a/src/include/OSL/sfmath.h
++++ b/src/include/OSL/sfmath.h
+@@ -13,8 +13,8 @@
+ #include "dual_vec.h"
+ #include <OSL/Imathx/Imathx.h>
+ 
+-#include <OpenEXR/ImathFun.h>
+-#include <OpenEXR/ImathMatrix.h>
++#include <OpenEXR-2/ImathFun.h>
++#include <OpenEXR-2/ImathMatrix.h>
+ #include <OpenImageIO/fmath.h>
+ 
+ 
+diff --git a/src/liboslexec/llvm_ops.cpp b/src/liboslexec/llvm_ops.cpp
+index d6039b1..0c34116 100644
+--- a/src/liboslexec/llvm_ops.cpp
++++ b/src/liboslexec/llvm_ops.cpp
+@@ -83,7 +83,7 @@ typedef long double max_align_t;
+ #include <OSL/dual_vec.h>
+ using namespace OSL;
+ 
+-#include <OpenEXR/ImathFun.h>
++#include <OpenEXR-2/ImathFun.h>
+ #include <OpenImageIO/fmath.h>
+ #include <OpenImageIO/simd.h>
+ 
+diff --git a/src/liboslexec/shadingsys.cpp b/src/liboslexec/shadingsys.cpp
+index ac08bd5..afdd9cb 100644
+--- a/src/liboslexec/shadingsys.cpp
++++ b/src/liboslexec/shadingsys.cpp
+@@ -27,7 +27,7 @@
+ using namespace OSL;
+ using namespace OSL::pvt;
+ 
+-#include <OpenEXR/ImfChannelList.h>  // Just for OPENEXR_VERSION_STRING
++#include <OpenEXR-2/ImfChannelList.h>  // Just for OPENEXR_VERSION_STRING
+ 
+ // avoid naming conflicts with MSVC macros
+ #ifdef _MSC_VER
+diff --git a/src/liboslquery/py_osl.h b/src/liboslquery/py_osl.h
+index 1735141..cd20118 100644
+--- a/src/liboslquery/py_osl.h
++++ b/src/liboslquery/py_osl.h
+@@ -23,7 +23,7 @@
+ // Avoid a compiler warning from a duplication in tiffconf.h/pyconfig.h
+ #undef SIZEOF_LONG
+ 
+-#include <OpenEXR/half.h>
++#include <OpenEXR-2/half.h>
+ 
+ #include <OSL/oslquery.h>
+ 
+-- 
+2.32.0
+
