@@ -1,0 +1,67 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 27 Jun 2021 10:33:27 +0200
+Subject: [PATCH] patch FindOpenEXR.cmake for slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ find-modules/FindOpenEXR.cmake | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/find-modules/FindOpenEXR.cmake b/find-modules/FindOpenEXR.cmake
+index e4efe31..b203e6f 100644
+--- a/find-modules/FindOpenEXR.cmake
++++ b/find-modules/FindOpenEXR.cmake
+@@ -39,7 +39,7 @@ ecm_find_package_version_check(OpenEXR)
+ # use pkg-config to get the directories and then use these values
+ # in the FIND_PATH() and FIND_LIBRARY() calls
+ find_package(PkgConfig QUIET)
+-pkg_check_modules(PC_OpenEXR QUIET OpenEXR)
++pkg_check_modules(PC_OpenEXR QUIET OpenEXR-2)
+ 
+ set(OpenEXR_DEFINITIONS ${PC_OpenEXR_CFLAGS_OTHER})
+ 
+@@ -47,7 +47,7 @@ find_path(OpenEXR_INCLUDE_DIR ImfRgbaFile.h
+    PATHS
+    ${PC_OpenEXR_INCLUDEDIR}
+    ${PC_OpenEXR_INCLUDE_DIRS}
+-   PATH_SUFFIXES OpenEXR
++   PATH_SUFFIXES OpenEXR-2
+ )
+ 
+ # Required libraries for OpenEXR
+@@ -55,27 +55,32 @@ find_library(OpenEXR_HALF_LIBRARY NAMES Half
+    PATHS
+    ${PC_OpenEXR_LIBDIR}
+    ${PC_OpenEXR_LIBRARY_DIRS}
++   PATH_SUFFIXES OpenEXR-2
+ )
+ find_library(OpenEXR_IEX_LIBRARY NAMES Iex
+    PATHS
+    ${PC_OpenEXR_LIBDIR}
+    ${PC_OpenEXR_LIBRARY_DIRS}
++   PATH_SUFFIXES OpenEXR-2
+ )
+ find_library(OpenEXR_IMATH_LIBRARY NAMES Imath
+    PATHS
+    ${PC_OpenEXR_LIBDIR}
+    ${PC_OpenEXR_LIBRARY_DIRS}
++   PATH_SUFFIXES OpenEXR-2
+ )
+ find_library(OpenEXR_ILMTHREAD_LIBRARY NAMES IlmThread
+    PATHS
+    ${PC_OpenEXR_LIBDIR}
+    ${PC_OpenEXR_LIBRARY_DIRS}
++   PATH_SUFFIXES OpenEXR-2
+ )
+ # This is the actual OpenEXR library
+ find_library(OpenEXR_ILMIMF_LIBRARY NAMES IlmImf
+    PATHS
+    ${PC_OpenEXR_LIBDIR}
+    ${PC_OpenEXR_LIBRARY_DIRS}
++   PATH_SUFFIXES OpenEXR-2
+ )
+ 
+ set(_OpenEXR_deps
+-- 
+2.32.0
+
