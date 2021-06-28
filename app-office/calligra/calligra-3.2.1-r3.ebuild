@@ -91,7 +91,7 @@ COMMON_DEPEND="
 		media-libs/lcms:2
 	)
 	okular? ( kde-apps/okular:5 )
-	openexr? ( media-libs/openexr )
+	openexr? ( media-libs/openexr:0= )
 	pdf? ( app-text/poppler:=[qt5] )
 	phonon? ( >=media-libs/phonon-4.11.0 )
 	spacenav? ( dev-libs/libspnav )
@@ -120,6 +120,7 @@ RESTRICT+=" test"
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.1.89-no-arch-detection.patch
 	"${FILESDIR}"/${P}-cmake-3.16.patch # bug 796224
+	"${FILESDIR}"/${P}-find-slotted-openexr.patch
 )
 
 pkg_pretend() {

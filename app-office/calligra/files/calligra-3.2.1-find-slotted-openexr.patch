@@ -1,0 +1,33 @@
+From df8fb8fbb93915269ede5e20f9dd6a7b33181699 Mon Sep 17 00:00:00 2001
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Mon, 28 Jun 2021 21:53:03 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ cmake/modules/FindOpenEXR.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/modules/FindOpenEXR.cmake b/cmake/modules/FindOpenEXR.cmake
+index 93b05dd..d2d5db7 100644
+--- a/cmake/modules/FindOpenEXR.cmake
++++ b/cmake/modules/FindOpenEXR.cmake
+@@ -21,13 +21,13 @@ else (OPENEXR_INCLUDE_DIR AND OPENEXR_LIBRARIES)
+   # use pkg-config to get the directories and then use these values
+   # in the FIND_PATH() and FIND_LIBRARY() calls
+   find_package(PkgConfig)
+-  pkg_check_modules(PC_OPENEXR QUIET OpenEXR) 
++  pkg_check_modules(PC_OPENEXR QUIET OpenEXR-2) 
+ 
+   FIND_PATH(OPENEXR_INCLUDE_DIR ImfRgbaFile.h
+      HINTS
+      ${PC_OPENEXR_INCLUDEDIR}
+      ${PC_OPENEXR_INCLUDE_DIRS}
+-     PATH_SUFFIXES OpenEXR
++     PATH_SUFFIXES OpenEXR-2
+   )
+ 
+   FIND_LIBRARY(OPENEXR_HALF_LIBRARY NAMES Half
+-- 
+2.32.0
+
