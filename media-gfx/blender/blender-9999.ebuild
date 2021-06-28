@@ -83,7 +83,7 @@ RDEPEND="${PYTHON_DEPS}
 	openimageio? ( >=media-libs/openimageio-2.2.13.1:= )
 	openexr? (
 		media-libs/ilmbase:=
-		media-libs/openexr:=
+		media-libs/openexr:0=
 	)
 	opensubdiv? ( >=media-libs/opensubdiv-3.4.0[cuda=,opencl=] )
 	openvdb? (
@@ -120,6 +120,8 @@ BDEPEND="
 	)
 	nls? ( sys-devel/gettext )
 "
+
+PATCHES=( "${FILESDIR}"/${PN}-2.93.0-find-slotted-openexr.patch )
 
 blender_check_requirements() {
 	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
