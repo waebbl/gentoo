@@ -50,7 +50,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
 	lcms? ( >=media-libs/lcms-2.8:2 )
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
-	openexr? ( >=media-libs/openexr-1.6.1:= )
+	openexr? ( media-libs/openexr:* )
 	pdf? ( >=app-text/poppler-0.71.0[cairo] )
 	raw? ( >=media-libs/libraw-0.15.4:0= )
 	sdl? ( >=media-libs/libsdl-1.2.0 )
