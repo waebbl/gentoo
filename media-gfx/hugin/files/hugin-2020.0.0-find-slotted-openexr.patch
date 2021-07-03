@@ -1,0 +1,72 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 4 Jul 2021 00:34:04 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMakeModules/FindOpenEXR.cmake | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeModules/FindOpenEXR.cmake b/CMakeModules/FindOpenEXR.cmake
+index 3ed141a..c2d3345 100755
+--- a/CMakeModules/FindOpenEXR.cmake
++++ b/CMakeModules/FindOpenEXR.cmake
+@@ -19,12 +19,12 @@ else (OPENEXR_INCLUDE_DIR AND OPENEXR_LIBRARIES)
+ IF (NOT WIN32 OR MINGW)
+   # use pkg-config to get the directories and then use these values
+   # in the FIND_PATH() and FIND_LIBRARY() calls
+-  INCLUDE(UsePkgConfig)
++  INCLUDE(FindPkgConfig)
+   
+-  PKGCONFIG(OpenEXR _OpenEXRIncDir _OpenEXRLinkDir _OpenEXRLinkFlags _OpenEXRCflags)
++  PKG_CHECK_MODULES(OpenEXR REQUIRED OpenEXR-2)
+ ENDIF (NOT WIN32 OR MINGW)
+   FIND_PATH(OPENEXR_INCLUDE_DIR ImfRgbaFile.h
+-     PATH_SUFFIXES OpenEXR
++     PATH_SUFFIXES OpenEXR-2
+      PATHS
+        ${_OpenEXRIncDir}
+        /usr/include
+@@ -38,6 +38,7 @@ ENDIF (NOT WIN32 OR MINGW)
+     NAMES Half-2_5 Half-2_4 Half-2_3 Half
+     PATHS
+       ${_OPENEXRLinkDir}
++      /usr/lib${LIB_SUFFIX}/OpenEXR-2
+       ${SYSTEM_LIB_DIRS}
+       ${SOURCE_BASE_DIR}/Deploy/lib/
+       ${SOURCE_BASE_DIR}/Deploy/lib/Release
+@@ -48,6 +49,7 @@ ENDIF (NOT WIN32 OR MINGW)
+     NAMES Iex-2_5 Iex-2_4 Iex-2_3 Iex-2_2 Iex
+     PATHS
+       ${_OPENEXRLinkDir}
++      /usr/lib${LIB_SUFFIX}/OpenEXR-2
+       ${SYSTEM_LIB_DIRS}
+       ${SOURCE_BASE_DIR}/Deploy/lib/
+       ${SOURCE_BASE_DIR}/Deploy/lib/Release
+@@ -58,6 +60,7 @@ ENDIF (NOT WIN32 OR MINGW)
+     NAMES IlmThread-2_5 IlmThread-2_4 IlmThread-2_3 IlmThread-2_2 IlmThread
+     PATHS
+       ${_OPENEXRLinkDir}
++      /usr/lib${LIB_SUFFIX}/OpenEXR-2
+       ${SYSTEM_LIB_DIRS}
+       ${SOURCE_BASE_DIR}/Deploy/lib/
+       ${SOURCE_BASE_DIR}/Deploy/lib/Release
+@@ -68,6 +71,7 @@ ENDIF (NOT WIN32 OR MINGW)
+     NAMES Imath-2_5 Imath-2_4 Imath-2_3 Imath-2_2 Imath
+     PATHS
+       ${_OPENEXRLinkDir}
++      /usr/lib${LIB_SUFFIX}/OpenEXR-2
+       ${SYSTEM_LIB_DIRS}
+       ${SOURCE_BASE_DIR}/Deploy/lib/
+       ${SOURCE_BASE_DIR}/Deploy/lib/Release
+@@ -79,6 +83,7 @@ ENDIF (NOT WIN32 OR MINGW)
+     NAMES IlmImf-2_5 IlmImf-2_4 IlmImf-2_3 IlmImf-2_2 IlmImf 
+     PATHS
+       ${_OPENEXRLinkDir}
++      /usr/lib${LIB_SUFFIX}/OpenEXR-2
+       ${SYSTEM_LIB_DIRS}
+       ${SOURCE_BASE_DIR}/Deploy/lib/
+       ${SOURCE_BASE_DIR}/Deploy/lib/Release
+-- 
+2.32.0
+
