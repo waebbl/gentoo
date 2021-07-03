@@ -1,0 +1,26 @@
+From 02150047e6120a2f07580122242b489ffeefbba9 Mon Sep 17 00:00:00 2001
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sat, 3 Jul 2021 16:58:23 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index acb2d65..a89ff67 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2590,7 +2590,7 @@ OPENEXR_LIBS=""
+ OPENEXR_PKG=""
+ if test "x$with_openexr" = "xyes"; then
+   AC_MSG_RESULT([-------------------------------------------------------------])
+-  PKG_CHECK_MODULES([OPENEXR],[OpenEXR >= 1.0.6],[have_openexr=yes],[have_openexr=no])
++  PKG_CHECK_MODULES([OPENEXR],[OpenEXR-2 >= 1.0.6],[have_openexr=yes],[have_openexr=no])
+   AC_MSG_RESULT([])
+ fi
+ 
+-- 
+2.32.0
+
