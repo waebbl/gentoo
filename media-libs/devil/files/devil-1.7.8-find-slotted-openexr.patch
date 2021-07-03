@@ -1,0 +1,25 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sat, 3 Jul 2021 12:18:54 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ m4/devil-definitions.m4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/m4/devil-definitions.m4 b/m4/devil-definitions.m4
+index 7616e82..97be225 100644
+--- a/m4/devil-definitions.m4
++++ b/m4/devil-definitions.m4
+@@ -202,7 +202,7 @@ AS_IF([test "x$have_lcms_lib" = "xyes" -a "x$have_lcms_h" = "xyes"],
+ 
+ AC_DEFUN([SETTLE_OPENEXR],
+          [PKG_CHECK_MODULES([OPENEXR], 
+-                            [OpenEXR],
++                            [OpenEXR-2],
+                             [have_openexr="yes"],
+                             [have_openexr="no"])
+           MAYBE_OPTIONAL_DEPENDENCY([IL],
+-- 
+2.32.0
+
