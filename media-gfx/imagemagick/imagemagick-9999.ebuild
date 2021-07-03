@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-inherit flag-o-matic libtool perl-functions toolchain-funcs multilib
+inherit autotools flag-o-matic perl-functions toolchain-funcs multilib
 
 if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="https://github.com/ImageMagick/ImageMagick.git"
@@ -18,6 +18,7 @@ fi
 
 DESCRIPTION="A collection of tools and libraries for many image formats"
 HOMEPAGE="https://www.imagemagick.org/"
+S="${WORKDIR}/${MY_P}"
 
 LICENSE="imagemagick"
 SLOT="0/7.1.0-0"
@@ -79,7 +80,7 @@ DEPEND="${RDEPEND}
 	!media-gfx/graphicsmagick[imagemagick]
 	X? ( x11-base/xorg-proto )"
 
-S="${WORKDIR}/${MY_P}"
+PATCHES=( "${FILESDIR}"/${PN}-7.1.0.2-find-slotted-openexr.patch )
 
 src_prepare() {
 	default
@@ -94,7 +95,7 @@ src_prepare() {
 		die "Failed to apply hardening of policy.xml"
 	einfo "policy.xml hardened"
 
-	elibtoolize # for Darwin modules
+	eautoreconf # changes in configure.ac
 
 	# For testsuite, see https://bugs.gentoo.org/show_bug.cgi?id=500580#c3
 	local ati_cards mesa_cards nvidia_cards render_cards
