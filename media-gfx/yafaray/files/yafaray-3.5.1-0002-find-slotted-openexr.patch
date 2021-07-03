@@ -1,0 +1,33 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sat, 3 Jul 2021 12:40:44 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMakeModules/FindOpenEXR.cmake | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeModules/FindOpenEXR.cmake b/CMakeModules/FindOpenEXR.cmake
+index f548988..75387d8 100644
+--- a/CMakeModules/FindOpenEXR.cmake
++++ b/CMakeModules/FindOpenEXR.cmake
+@@ -14,13 +14,15 @@ IF(ZLIB_FOUND)
+ 
+ 	SET(LIBRARY_DIRS 
+ 		/usr/lib
++		/usr/lib${LIB_SUFFIX}
++		/usr/lib${LIB_SUFFIX}/OpenEXR-2
+ 		/usr/local/lib
+ 		/sw/lib
+ 		/opt/local/lib
+ 		$ENV{PROGRAM_FILES}/OpenEXR/lib/static)
+ 
+ 	FIND_PATH(OPENEXR_INCLUDE_PATH ImfRgbaFile.h
+-		PATH_SUFFIXES OpenEXR
++		PATH_SUFFIXES OpenEXR-2
+ 		/usr/include
+ 		/usr/local/include
+ 		/sw/include
+-- 
+2.32.0
+
