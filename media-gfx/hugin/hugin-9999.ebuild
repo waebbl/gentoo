@@ -13,6 +13,7 @@ HOMEPAGE="http://hugin.sf.net"
 SRC_URI=""
 EHG_REPO_URI="http://hg.code.sf.net/p/hugin/hugin"
 EHG_PROJECT="${PN}-${PN}"
+S=${WORKDIR}/${PN}-$(ver_cut 1-2).0
 
 LICENSE="GPL-2+ BSD BSD-2 MIT wxWinLL-3 ZLIB FDL-1.2"
 SLOT="0"
@@ -22,7 +23,6 @@ LANGS=" ca ca-valencia cs da de en-GB es eu fi fr hu it ja nl pl pt-BR ro ru sk 
 IUSE="debug lapack python raw sift $(echo ${LANGS//\ /\ l10n_})"
 
 CDEPEND="
-	!!dev-util/cocom
 	dev-db/sqlite:3
 	dev-libs/boost:=
 	dev-libs/zthread
@@ -32,7 +32,7 @@ CDEPEND="
 	media-libs/glew:=
 	>=media-libs/libpano13-2.9.19_beta1:0=
 	media-libs/libpng:0=
-	media-libs/openexr:=
+	media-libs/openexr:0=
 	media-libs/tiff:0
 	>=media-libs/vigra-1.11.0[openexr]
 	sci-libs/fftw:3.0=
@@ -56,9 +56,8 @@ DEPEND="${CDEPEND}
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
+PATCHES=( "${FILESDIR}"/${PN}-2020.0.0-find-slotted-openexr.patch )
 DOCS=( authors.txt README TODO )
-
-S=${WORKDIR}/${PN}-$(ver_cut 1-2).0
 
 pkg_setup() {
 	use python && python-single-r1_pkg_setup
