@@ -1,0 +1,49 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 4 Jul 2021 11:17:02 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ configure.ac                           |  2 +-
+ plug-ins/file-exr/exr-attribute-blob.h | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index fdb8936..ddb0b5e 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1741,7 +1741,7 @@ AC_ARG_WITH(openexr, [  --without-openexr       build without OpenEXR support])
+ have_openexr=no
+ if test "x$with_openexr" != xno; then
+   have_openexr=yes
+-  PKG_CHECK_MODULES(OPENEXR, OpenEXR >= openexr_required_version,
++  PKG_CHECK_MODULES(OPENEXR, OpenEXR-2 >= openexr_required_version,
+     FILE_EXR='file-exr$(EXEEXT)',
+     [have_openexr="no (OpenEXR not found)"])
+ fi
+diff --git a/plug-ins/file-exr/exr-attribute-blob.h b/plug-ins/file-exr/exr-attribute-blob.h
+index 449f252..6ad4614 100644
+--- a/plug-ins/file-exr/exr-attribute-blob.h
++++ b/plug-ins/file-exr/exr-attribute-blob.h
+@@ -29,12 +29,12 @@
+ #include <tr1/memory>
+ #endif
+ 
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfTestFile.h>
+-#include <OpenEXR/ImfInputFile.h>
+-#include <OpenEXR/ImfTiledInputFile.h>
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
++#include <OpenEXR-2/ImfFrameBuffer.h>
++#include <OpenEXR-2/ImfTestFile.h>
++#include <OpenEXR-2/ImfInputFile.h>
++#include <OpenEXR-2/ImfTiledInputFile.h>
++#include <OpenEXR-2/ImfChannelList.h>
++#include <OpenEXR-2/ImfStandardAttributes.h>
+ 
+ #ifdef OPENEXR_IMF_INTERNAL_NAMESPACE
+ #define IMF_NS OPENEXR_IMF_INTERNAL_NAMESPACE
+-- 
+2.32.0
+
