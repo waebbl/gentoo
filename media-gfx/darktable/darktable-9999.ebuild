@@ -70,7 +70,7 @@ DEPEND="dev-db/sqlite:3
 	jpeg2k? ( media-libs/openjpeg:2= )
 	lua? ( ${LUA_DEPS} )
 	opencl? ( virtual/opencl )
-	openexr? ( media-libs/openexr:0= )
+	openexr? ( media-libs/openexr:* )
 	webp? ( media-libs/libwebp:0= )"
 RDEPEND="${DEPEND}
 	kwallet? ( >=kde-frameworks/kwallet-5.34.0-r1 )"
@@ -79,6 +79,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-find-opencl-header.patch
 	"${FILESDIR}"/${PN}-3.0.2_cmake-march-autodetection.patch
 	"${FILESDIR}"/${PN}-3.4.0_jsonschema-automagic.patch
+	"${FILESDIR}"/${P}-find-slotted-openexr.patch
 )
 
 S="${WORKDIR}/${P/_/~}"

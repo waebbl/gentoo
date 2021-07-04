@@ -1,0 +1,83 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 4 Jul 2021 20:04:27 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ src/common/imageio_exr.cc | 14 +++++++-------
+ src/common/imageio_exr.hh | 12 ++++++------
+ src/imageio/format/exr.cc | 10 +++++-----
+ 3 files changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/src/common/imageio_exr.cc b/src/common/imageio_exr.cc
+index ce5ffd6dd..6b2b2c35b 100644
+--- a/src/common/imageio_exr.cc
++++ b/src/common/imageio_exr.cc
+@@ -28,13 +28,13 @@
+ #include <stdio.h>
+ #include <string.h>
+ 
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfInputFile.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
+-#include <OpenEXR/ImfTestFile.h>
+-#include <OpenEXR/ImfThreading.h>
+-#include <OpenEXR/ImfTiledInputFile.h>
++#include <ImfChannelList.h>
++#include <ImfFrameBuffer.h>
++#include <ImfInputFile.h>
++#include <ImfStandardAttributes.h>
++#include <ImfTestFile.h>
++#include <ImfThreading.h>
++#include <ImfTiledInputFile.h>
+ 
+ extern "C" {
+ #include "common/colorspaces.h"
+diff --git a/src/common/imageio_exr.hh b/src/common/imageio_exr.hh
+index 1f1a40751..754f3d843 100644
+--- a/src/common/imageio_exr.hh
++++ b/src/common/imageio_exr.hh
+@@ -29,12 +29,12 @@
+ #include <tr1/memory>
+ #endif
+ 
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfInputFile.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
+-#include <OpenEXR/ImfTestFile.h>
+-#include <OpenEXR/ImfTiledInputFile.h>
++#include <ImfChannelList.h>
++#include <ImfFrameBuffer.h>
++#include <ImfInputFile.h>
++#include <ImfStandardAttributes.h>
++#include <ImfTestFile.h>
++#include <ImfTiledInputFile.h>
+ 
+ #ifdef OPENEXR_IMF_INTERNAL_NAMESPACE
+ #define IMF_NS OPENEXR_IMF_INTERNAL_NAMESPACE
+diff --git a/src/imageio/format/exr.cc b/src/imageio/format/exr.cc
+index 9f22d4349..ac328daed 100644
+--- a/src/imageio/format/exr.cc
++++ b/src/imageio/format/exr.cc
+@@ -23,11 +23,11 @@
+ #include <cstdlib>
+ #include <memory>
+ 
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
+-#include <OpenEXR/ImfThreading.h>
+-#include <OpenEXR/ImfTiledOutputFile.h>
++#include <ImfChannelList.h>
++#include <ImfFrameBuffer.h>
++#include <ImfStandardAttributes.h>
++#include <ImfThreading.h>
++#include <ImfTiledOutputFile.h>
+ 
+ extern "C" {
+ #include "bauhaus/bauhaus.h"
+-- 
+2.32.0
+
