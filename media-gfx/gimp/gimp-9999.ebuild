@@ -6,8 +6,6 @@ EAPI=7
 LUA_COMPAT=( luajit )
 PYTHON_COMPAT=( python3_{7..9} )
 GNOME2_EAUTORECONF=yes
-VALA_MIN_API_VERSION="0.40"
-VALA_USE_DEPEND=vapigen
 
 inherit autotools git-r3 gnome2 lua-single python-single-r1 toolchain-funcs vala virtualx
 
@@ -68,7 +66,7 @@ COMMON_DEPEND="
 		')
 	)
 	mng? ( media-libs/libmng:= )
-	openexr? ( >=media-libs/openexr-2.3.0:= )
+	openexr? ( >=media-libs/openexr-2.3.0:0= )
 	postscript? ( app-text/ghostscript-gpl )
 	python? (
 		${PYTHON_DEPS}
@@ -116,6 +114,7 @@ DOCS=( "AUTHORS" "HACKING" "NEWS" "README" "README.i18n" )
 # Bugs 685210 (and duplicate 691070)
 PATCHES=(
 	"${FILESDIR}/${PN}-2.10_fix_test-appdata.patch"
+	"${FILESDIR}/${PN}-2.10.24-find-slotted-openexr.patch"
 )
 
 pkg_setup() {
