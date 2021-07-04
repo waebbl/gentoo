@@ -1,0 +1,132 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 4 Jul 2021 18:27:52 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ cmake/modules/FindOpenEXR.cmake | 18 ++++++++++++++----
+ src/common/imageio_exr.cc       | 14 +++++++-------
+ src/common/imageio_exr.hh       | 12 ++++++------
+ src/imageio/format/exr.cc       | 10 +++++-----
+ 4 files changed, 32 insertions(+), 22 deletions(-)
+
+diff --git a/cmake/modules/FindOpenEXR.cmake b/cmake/modules/FindOpenEXR.cmake
+index c4816ea..fec1cfe 100644
+--- a/cmake/modules/FindOpenEXR.cmake
++++ b/cmake/modules/FindOpenEXR.cmake
+@@ -11,29 +11,39 @@
+ # Copyright 2010 henrik andersson
+ #=============================================================================
+ 
+-find_path(_OPENEXR_INCLUDE_DIR  OpenEXR
++find_path(_OPENEXR_INCLUDE_DIR  OpenEXR-2/OpenEXRConfig.h
+   PATHS /usr/include
+-  /usr/include/OpenEXR
++  /usr/include/OpenEXR-2
+   HINTS ENV OPENEXR_INCLUDE_DIR)
+-set(OpenEXR_INCLUDE_DIR  ${_OPENEXR_INCLUDE_DIR} ${_OPENEXR_INCLUDE_DIR}/OpenEXR)
++set(OpenEXR_INCLUDE_DIR  ${_OPENEXR_INCLUDE_DIR} ${_OPENEXR_INCLUDE_DIR}/OpenEXR-2)
+ mark_as_advanced(OpenEXR_INCLUDE_DIR)
+ 
+ # Find libraries and add them to OpenEXR_LIBRARY
+-find_path(_OPENEXR_LIB_DIR OpenEXR
++find_path(_OPENEXR_LIB_DIR OpenEXR-2/libIlmImf.so
++  PATHS /usr/lib${LIB_SUFFIX}
++  PATH_SUFFIXES OpenEXR-2
+   HINTS ENV OPENEXR_LIB_DIR)
+ set(OpenEXR_LIB_DIR ${_OPENEXR_LIB_DIR})
+ mark_as_advanced(OpenEXR_LIB_DIR)
+ 
+ find_library(_OPENEXR_LIBRARY_IMIMF IlmImf
++  PATHS /usr/lib${LIB_SUFFIX}
++  PATH_SUFFIXES OpenEXR-2
+   HINTS ENV OPENEXR_LIB_DIR)
+ set(OpenEXR_LIBRARY ${OpenEXR_LIBRARY} ${_OPENEXR_LIBRARY_IMIMF})
+ find_library(_OPENEXR_LIBRARY_IMATH Imath
++  PATHS /usr/lib${LIB_SUFFIX}
++  PATH_SUFFIXES OpenEXR-2
+   HINTS ENV OPENEXR_LIB_DIR)
+ set(OpenEXR_LIBRARY ${OpenEXR_LIBRARY} ${_OPENEXR_LIBRARY_IMATH})
+ find_library(_OPENEXR_LIBRARY_IEX Iex
++  PATHS /usr/lib${LIB_SUFFIX}
++  PATH_SUFFIXES OpenEXR-2
+   HINTS ENV OPENEXR_LIB_DIR)
+ set(OpenEXR_LIBRARY ${OpenEXR_LIBRARY} ${_OPENEXR_LIBRARY_IEX})
+ find_library(_OPENEXR_LIBRARY_ILMTHREAD IlmThread
++  PATHS /usr/lib${LIB_SUFFIX}
++  PATH_SUFFIXES OpenEXR-2
+   HINTS ENV OPENEXR_LIB_DIR)
+ set(OpenEXR_LIBRARY ${OpenEXR_LIBRARY} ${_OPENEXR_LIBRARY_ILMTHREAD})
+ 
+diff --git a/src/common/imageio_exr.cc b/src/common/imageio_exr.cc
+index 9a34a05..ab59c70 100644
+--- a/src/common/imageio_exr.cc
++++ b/src/common/imageio_exr.cc
+@@ -28,13 +28,13 @@
+ #include <stdio.h>
+ #include <string.h>
+ 
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfInputFile.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
+-#include <OpenEXR/ImfTestFile.h>
+-#include <OpenEXR/ImfThreading.h>
+-#include <OpenEXR/ImfTiledInputFile.h>
++#include <OpenEXR-2/ImfChannelList.h>
++#include <OpenEXR-2/ImfFrameBuffer.h>
++#include <OpenEXR-2/ImfInputFile.h>
++#include <OpenEXR-2/ImfStandardAttributes.h>
++#include <OpenEXR-2/ImfTestFile.h>
++#include <OpenEXR-2/ImfThreading.h>
++#include <OpenEXR-2/ImfTiledInputFile.h>
+ 
+ extern "C" {
+ #include "common/colorspaces.h"
+diff --git a/src/common/imageio_exr.hh b/src/common/imageio_exr.hh
+index 1f1a407..576c257 100644
+--- a/src/common/imageio_exr.hh
++++ b/src/common/imageio_exr.hh
+@@ -29,12 +29,12 @@
+ #include <tr1/memory>
+ #endif
+ 
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfInputFile.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
+-#include <OpenEXR/ImfTestFile.h>
+-#include <OpenEXR/ImfTiledInputFile.h>
++#include <OpenEXR-2/ImfChannelList.h>
++#include <OpenEXR-2/ImfFrameBuffer.h>
++#include <OpenEXR-2/ImfInputFile.h>
++#include <OpenEXR-2/ImfStandardAttributes.h>
++#include <OpenEXR-2/ImfTestFile.h>
++#include <OpenEXR-2/ImfTiledInputFile.h>
+ 
+ #ifdef OPENEXR_IMF_INTERNAL_NAMESPACE
+ #define IMF_NS OPENEXR_IMF_INTERNAL_NAMESPACE
+diff --git a/src/imageio/format/exr.cc b/src/imageio/format/exr.cc
+index b0f309b..14cfe0d 100644
+--- a/src/imageio/format/exr.cc
++++ b/src/imageio/format/exr.cc
+@@ -23,11 +23,11 @@
+ #include <cstdlib>
+ #include <memory>
+ 
+-#include <OpenEXR/ImfChannelList.h>
+-#include <OpenEXR/ImfFrameBuffer.h>
+-#include <OpenEXR/ImfStandardAttributes.h>
+-#include <OpenEXR/ImfThreading.h>
+-#include <OpenEXR/ImfTiledOutputFile.h>
++#include <OpenEXR-2/ImfChannelList.h>
++#include <OpenEXR-2/ImfFrameBuffer.h>
++#include <OpenEXR-2/ImfStandardAttributes.h>
++#include <OpenEXR-2/ImfThreading.h>
++#include <OpenEXR-2/ImfTiledOutputFile.h>
+ 
+ extern "C" {
+ #include "bauhaus/bauhaus.h"
+-- 
+2.32.0
+
