@@ -1,0 +1,56 @@
+From: Bernd Waibel <waebbl-gentoo@posteo.net>
+Date: Sun, 4 Jul 2021 23:03:42 +0200
+Subject: [PATCH] find slotted openexr
+
+Signed-off-by: Bernd Waibel <waebbl-gentoo@posteo.net>
+---
+ CMake/Packages/FindOpenEXR.cmake | 7 ++++---
+ PlugIns/EXRCodec/CMakeLists.txt  | 2 +-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/CMake/Packages/FindOpenEXR.cmake b/CMake/Packages/FindOpenEXR.cmake
+index 4ef5a10..e7ffa31 100644
+--- a/CMake/Packages/FindOpenEXR.cmake
++++ b/CMake/Packages/FindOpenEXR.cmake
+@@ -10,13 +10,13 @@
+ # Created by Robert Osfield. 
+ 
+ 
+-FIND_PATH(OPENEXR_INCLUDE_DIR OpenEXR/ImfIO.h
++FIND_PATH(OPENEXR_INCLUDE_DIR ImfIO.h
+     $ENV{OPENEXR_DIR}/include
+     $ENV{OPENEXR_DIR}
+     ~/Library/Frameworks
+     /Library/Frameworks
+     /usr/local/include
+-    /usr/include
++    /usr/include/OpenEXR-2
+     /sw/include # Fink
+     /opt/local/include # DarwinPorts
+     /opt/csw/include # Blastwave
+@@ -35,7 +35,8 @@ MACRO(OPENEXR_FIND_VAR varname libname)
+         ~/Library/Frameworks
+         /Library/Frameworks
+         /usr/local/lib
+-        /usr/lib
++        /usr/lib${LIB_SUFFIX}
++        /usr/lib${LIB_SUFFIX}/OpenEXR-2
+         /sw/lib
+         /opt/local/lib
+         /opt/csw/lib
+diff --git a/PlugIns/EXRCodec/CMakeLists.txt b/PlugIns/EXRCodec/CMakeLists.txt
+index e9c936a..bb8747e 100644
+--- a/PlugIns/EXRCodec/CMakeLists.txt
++++ b/PlugIns/EXRCodec/CMakeLists.txt
+@@ -16,7 +16,7 @@ target_link_libraries(Codec_EXR OgreMain ${OPENEXR_LIBRARIES})
+ target_include_directories(Codec_EXR PUBLIC 
+     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+     $<INSTALL_INTERFACE:include/OGRE/Plugins/EXRCodec>)
+-target_include_directories(Codec_EXR SYSTEM PRIVATE  "${OPENEXR_INCLUDE_DIR}/OpenEXR")
++target_include_directories(Codec_EXR SYSTEM PRIVATE  "${OPENEXR_INCLUDE_DIR}")
+ 
+ ogre_config_framework(Codec_EXR)
+ ogre_config_plugin(Codec_EXR)
+-- 
+2.32.0
+
