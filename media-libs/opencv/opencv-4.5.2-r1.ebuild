@@ -281,7 +281,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-4.1.2-opencl-license.patch
 	"${FILESDIR}"/${PN}-4.4.0-disable-native-cpuflag-detect.patch
 	"${FILESDIR}"/${PN}-4.5.0-link-with-cblas-for-lapack.patch
-	"${FILESDIR}"/${P}-0001-find-versioned-openexr.patch
+	"${FILESDIR}"/${PN}-4.5.2-0001-find-versioned-openexr.patch
 )
 
 pkg_pretend() {

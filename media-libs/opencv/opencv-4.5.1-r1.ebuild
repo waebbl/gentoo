@@ -119,7 +119,7 @@ RDEPEND="
 		virtual/lapack
 	)
 	opencl? ( virtual/opencl[${MULTILIB_USEDEP}] )
-	openexr? ( media-libs/openexr[${MULTILIB_USEDEP}] )
+	openexr? ( media-libs/openexr:0=[${MULTILIB_USEDEP}] )
 	opengl? (
 		virtual/opengl[${MULTILIB_USEDEP}]
 		virtual/glu[${MULTILIB_USEDEP}]
@@ -281,6 +281,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-4.1.2-opencl-license.patch
 	"${FILESDIR}"/${PN}-4.4.0-disable-native-cpuflag-detect.patch
 	"${FILESDIR}"/${PN}-4.5.0-link-with-cblas-for-lapack.patch
+	"${FILESDIR}"/${P}-0001-find-versioned-openexr.patch
 )
 
 pkg_pretend() {
